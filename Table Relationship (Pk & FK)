@@ -1,0 +1,95 @@
+Types of Relationships
+One-to-One
+
+A row in Table A is related to exactly one row in Table B.
+Example: Each user has one profile.
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE profiles (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE,
+    bio TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+One-to-Many
+
+A row in Table A is related to multiple rows in Table B.
+Example: A single user can post multiple blog entries.
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE posts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    title VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+Many-to-Many
+
+Rows in Table A are related to multiple rows in Table B, and vice versa.
+Example: Students enrolled in multiple courses.
+Solution: Use a junction table.
+
+
+CREATE TABLE students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE courses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100)
+);
+
+CREATE TABLE student_courses (
+    student_id INT,
+    course_id INT,
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+What is a Foreign Key?
+A foreign key is a column (or set of columns) in a table that establishes a link between data in two tables. It ensures referential integrity by restricting invalid data entry.
+
+How to Define a Foreign Key
+With Table Creation
+
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    amount DECIMAL(10, 2),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+Adding to an Existing Table
+
+ALTER TABLE orders
+ADD CONSTRAINT fk_user
+FOREIGN KEY (user_id) REFERENCES users(id);
+Dropping a Foreign Key
+
+ALTER TABLE orders
+DROP FOREIGN KEY fk_user;
+
+Constraints in Foreign Keys
+ON DELETE CASCADE
+
+Deletes child rows automatically when the parent is deleted.
+
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+ON UPDATE CASCADE
+
+Updates child rows when the parent row's key changes.
+
+FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE;
+SET NULL
+
+Sets the foreign key column to NULL if the parent row is deleted.
+
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;
