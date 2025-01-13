@@ -1,0 +1,23 @@
+How MySQL Indexes Work
+
+An index is like a table of contents in a book. Instead of reading the entire book to find a specific topic, you use the table of contents to jump directly to the page.
+MySQL uses B-trees or hash tables for storing indexes, depending on the type.
+Creating Indexes
+
+1. Creating Index with Table Creation
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    INDEX (name) -- Non-unique index
+);
+
+2. Adding Index to an Existing Table
+CREATE INDEX idx_name ON users (name);
+
+3. Creating a Unique Index
+CREATE UNIQUE INDEX idx_email ON users (email);
+
+4. Dropping an Index
+DROP INDEX idx_name ON users;
+
