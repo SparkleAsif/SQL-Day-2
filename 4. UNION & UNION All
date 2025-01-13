@@ -1,0 +1,48 @@
+Difference Between UNION/UNION ALL and JOIN
+Feature	JOIN	UNION/UNION ALL
+Purpose	Combines related data from multiple tables.	Combines results from multiple SELECT queries.
+Data Structure	Combines rows horizontally (side by side).	Combines rows vertically (one after another).
+Condition	Requires a ON condition to match rows.	No condition; just aligns columns.
+Duplicate Removal	N/A (depends on data)	UNION removes duplicates; UNION ALL does not.
+UNION vs UNION ALL
+UNION
+
+Combines and removes duplicate rows.
+Slightly slower due to the extra step of removing duplicates.
+
+SELECT name FROM users
+UNION
+SELECT name FROM customers;
+UNION ALL
+
+Combines all rows, including duplicates.
+Faster since it skips duplicate removal.
+
+SELECT name FROM users
+UNION ALL
+SELECT name FROM customers;
+Example with UNION ALL
+Table: users
+id	name
+1	John
+2	Jane
+Table: customers
+id	name
+1	Alice
+2	John
+
+Query:
+
+SELECT name FROM users
+UNION ALL
+SELECT name FROM customers;
+Result:
+
+name
+John
+Jane
+Alice
+John
+When to Use UNION/UNION ALL
+Use UNION when you want to merge datasets and remove duplicates.
+Use UNION ALL when you want to retain all rows, including duplicates
