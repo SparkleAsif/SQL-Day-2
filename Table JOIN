@@ -1,0 +1,120 @@
+A JOIN in SQL is used to combine rows from two or more tables based on a related column between them. Joins allow you to retrieve meaningful data spread across multiple tables.
+
+Types of Joins
+INNER JOIN
+
+Returns rows where there is a match in both tables.
+
+SELECT users.id, users.name, orders.amount
+FROM users
+INNER JOIN orders ON users.id = orders.user_id;
+LEFT JOIN (LEFT OUTER JOIN)
+
+Returns all rows from the left table and matching rows from the right table. If no match, returns NULL for the right table's columns.
+
+SELECT users.id, users.name, orders.amount
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id;
+RIGHT JOIN (RIGHT OUTER JOIN)
+
+Returns all rows from the right table and matching rows from the left table. If no match, returns NULL for the left table's columns.
+
+SELECT users.id, users.name, orders.amount
+FROM users
+RIGHT JOIN orders ON users.id = orders.user_id;
+FULL JOIN (FULL OUTER JOIN)
+
+Returns all rows from both tables. Rows without matches in either table are filled with NULL.
+Note: Not directly supported in MySQL. Can be simulated with UNION:
+
+SELECT users.id, users.name, orders.amount
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id
+UNION
+SELECT users.id, users.name, orders.amount
+FROM users
+RIGHT JOIN orders ON users.id = orders.user_id;
+CROSS JOIN
+
+Produces a Cartesian product of the two tables. Every row in the first table is combined with every row in the second table.
+
+SELECT users.name, orders.amount
+FROM users
+CROSS JOIN orders;
+SELF JOIN
+
+Joins a table with itself. Often used to find hierarchical relationships.
+
+SELECT e1.name AS Employee, e2.name AS Manager
+FROM employees e1
+INNER JOIN employees e2 ON e1.manager_id = e2.id;
+
+
+
+Join Example with Sample Tables
+Table: users
+id	name
+1	John
+2	Jane
+3	Alice
+Table: orders
+id	user_id	amount
+1	1	100.00
+2	2	150.00
+Queries:
+INNER JOIN
+
+SELECT users.name, orders.amount
+FROM users
+INNER JOIN orders ON users.id = orders.user_id;
+Result:
+
+name	amount
+John	100.00
+Jane	150.00
+LEFT JOIN
+
+SELECT users.name, orders.amount
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id;
+Result:
+
+name	amount
+John	100.00
+Jane	150.00
+Alice	NULL
+RIGHT JOIN
+
+SELECT users.name, orders.amount
+FROM users
+RIGHT JOIN orders ON users.id = orders.user_id;
+Result:
+
+name	amount
+John	100.00
+Jane	150.00
+CROSS JOIN
+
+SELECT users.name, orders.amount
+FROM users
+CROSS JOIN orders;
+Result:
+
+name	amount
+John	100.00
+John	150.00
+Jane	100.00
+Jane	150.00
+Alice	100.00
+Alice	150.00
+
+
+
+Best Practices for Using Joins
+Index Foreign Keys: Improve performance by indexing the columns used in JOIN conditions.
+Filter Early: Use WHERE clauses to limit the data being joined.
+Use Aliases: Simplify query readability with table aliases.
+
+SELECT u.name, o.amount
+FROM users AS u
+INNER JOIN orders AS o ON u.id = o.user_id;
